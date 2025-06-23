@@ -1,4 +1,4 @@
-import "./LoginPopup.css";
+import "./LoginPopup1.css";
 import { useContext, useState } from "react";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
