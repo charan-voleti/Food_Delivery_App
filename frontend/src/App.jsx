@@ -1,11 +1,11 @@
 import React from "react";
-import Navbar from "./componets/navbar/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart/Cart";
 import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
-import Footer from "./componets/Footer/Footer";
-import LoginPopup from "./componets/LoginPopup/LoginPopup";
+import Footer from "./components/Footer/Footer";
+import LoginPopup from "./components/LoginPopup/LoginPopup";
 import { useState } from "react";
 import Verify from "./pages/Verify/Verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
