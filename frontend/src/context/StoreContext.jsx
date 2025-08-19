@@ -89,7 +89,7 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
-  const url = "https://food-order-backend-qe50.onrender.com";
+  const url = "http://localhost:4000";
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
 
@@ -134,7 +134,7 @@ const StoreContextProvider = (props) => {
     setCartItems(response.data.cartData);
   };
 
-  // ✅ Clear cart items both locally and from the database
+  // Clear cart items both locally and from the database
   const clearCart = async () => {
     setCartItems({});
     if (token) {
@@ -165,7 +165,7 @@ const StoreContextProvider = (props) => {
     addToCart,
     removeFromCart,
     getTotalCartAmount,
-    clearCart, // ✅ added here
+    clearCart, 
     url,
     token,
     setToken,
