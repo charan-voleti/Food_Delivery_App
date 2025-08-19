@@ -23,7 +23,7 @@
 }
 
 .cart-items-item img:hover {
-    transform: scale(1.5); /* Increase size on hover */
+    transform: scale(1.5); 
 }
 
 .cart hr {

@@ -20,7 +20,7 @@ const MyOrders = () => {
     if (token) {
       fetchOrders();
     }
-  }, [token]); // user is login or signin  it will show again (if the token is updated this function will be again executed)
+  }, [token]); 
 
   return (
     <div className="my-orders">

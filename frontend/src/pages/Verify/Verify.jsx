@@ -5,8 +5,6 @@ import { StoreContext } from '../../context/StoreContext';
 import axios from 'axios';
 
 
-
-
 const Verify = () => {
 
 

@@ -17,8 +17,8 @@ const placeOrder = async (req,res) => {
             amount:req.body.amount,
             address:req.body.address
         })
-        await newOrder.save(); //to save the order in databse
-        await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}}); // cleaning the users cartdata
+        await newOrder.save(); 
+        await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}}); 
 
         // it nessesry for stripe payment
 
@@ -124,8 +124,3 @@ const updateStatus = async (req,res)=>{
 
 
 export  {placeOrder,verifyOrder,userOrders,listOrders,updateStatus}
-
-
-// to verify the order this not the perfect way the the perfect way is webhooks
-
-// userOrders : using try catch block we can find the all orders by using userid
