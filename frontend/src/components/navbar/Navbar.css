@@ -46,11 +46,11 @@
 .navbar li{
     cursor: pointer;
 }
-.navbar-searchicon{
+.navbar-basketicon{
     position: relative;
 }
 
-.navbar-searchicon .dot{
+.navbar-basketicon .dot{
     position: absolute;
     min-width: 10px ;
     min-height: 10px;
