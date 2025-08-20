@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECERT_KEY)
 // palecing user order for frontend
 const placeOrder = async (req,res) => {
 
-    const frontend_url = "http://localhost:5173";
+    const frontend_url = "https://food-delivery-app-sable-iota.vercel.app/";
 
     try {
         const newOrder = new orderModel({
