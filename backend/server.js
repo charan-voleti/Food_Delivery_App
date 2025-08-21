@@ -15,7 +15,12 @@ const PORT = process.env.PORT || 4000;
 
 //middleware
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+  origin: "https://food-delivery-app-sable-iota.vercel.app/myorders", // your frontend URL
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // only if you use cookies / tokens with "withCredentials"
+}));
 
 
 //DB Connection
