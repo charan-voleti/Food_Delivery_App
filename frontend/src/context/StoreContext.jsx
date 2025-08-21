@@ -1,8 +1,19 @@
-
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
-export const StoreContext = createContext(null);
+// ✅ Provide safe defaults so useContext never returns null
+export const StoreContext = createContext({
+  cartItems: {},
+  food_list: [],
+  setCartItems: () => {},
+  addToCart: () => {},
+  removeFromCart: () => {},
+  getTotalCartAmount: () => 0,
+  clearCart: () => {},
+  url: "",
+  token: "",
+  setToken: () => {}
+});
 
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
@@ -10,29 +21,52 @@ const StoreContextProvider = (props) => {
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
 
+  // ✅ Add item to cart
   const addToCart = async (itemId) => {
-    if (!cartItems[itemId]) {
-      setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
-    } else {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-    }
+    setCartItems((prev) => ({
+      ...prev,
+      [itemId]: (prev[itemId] || 0) + 1
+    }));
+
     if (token) {
-      await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } });
+      try {
+        await axios.post(
+          url + "/api/cart/add",
+          { itemId },
+          { headers: { token } }
+        );
+      } catch (error) {
+        console.error("Failed to add to cart:", error);
+      }
     }
   };
 
+  // ✅ Remove item from cart (never negative)
   const removeFromCart = async (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    setCartItems((prev) => {
+      const newQty = Math.max((prev[itemId] || 0) - 1, 0);
+      return { ...prev, [itemId]: newQty };
+    });
+
     if (token) {
-      await axios.post(url + "/api/cart/remove", { itemId }, { headers: { token } });
+      try {
+        await axios.post(
+          url + "/api/cart/remove",
+          { itemId },
+          { headers: { token } }
+        );
+      } catch (error) {
+        console.error("Failed to remove from cart:", error);
+      }
     }
   };
 
+  // ✅ Calculate cart total
   const getTotalCartAmount = () => {
     let totalAmount = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
-        let itemInfo = food_list.find((product) => product._id === item);
+        const itemInfo = food_list.find((product) => product._id === item);
         if (itemInfo) {
           totalAmount += itemInfo.price * cartItems[item];
         }
@@ -41,17 +75,31 @@ const StoreContextProvider = (props) => {
     return totalAmount;
   };
 
+  // ✅ Fetch food list
   const fetchFoodList = async () => {
-    const response = await axios.get(url + "/api/food/list");
-    setFoodList(response.data.data);
+    try {
+      const response = await axios.get(url + "/api/food/list");
+      setFoodList(response.data.data || []);
+    } catch (error) {
+      console.error("Failed to fetch food list:", error);
+    }
   };
 
+  // ✅ Load cart data if token exists
   const loadCartData = async (token) => {
-    const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } });
-    setCartItems(response.data.cartData);
+    try {
+      const response = await axios.post(
+        url + "/api/cart/get",
+        {},
+        { headers: { token } }
+      );
+      setCartItems(response.data.cartData || {});
+    } catch (error) {
+      console.error("Failed to load cart data:", error);
+    }
   };
 
-  // Clear cart items both locally and from the database
+  // ✅ Clear cart locally + server
   const clearCart = async () => {
     setCartItems({});
     if (token) {
@@ -63,6 +111,7 @@ const StoreContextProvider = (props) => {
     }
   };
 
+  // ✅ Load data on mount
   useEffect(() => {
     async function loadData() {
       await fetchFoodList();
@@ -82,10 +131,10 @@ const StoreContextProvider = (props) => {
     addToCart,
     removeFromCart,
     getTotalCartAmount,
-    clearCart, 
+    clearCart,
     url,
     token,
-    setToken,
+    setToken
   };
 
   return (
@@ -96,4 +145,3 @@ const StoreContextProvider = (props) => {
 };
 
 export default StoreContextProvider;
-
