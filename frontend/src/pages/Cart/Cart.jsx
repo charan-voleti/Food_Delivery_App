@@ -10,7 +10,8 @@ const Cart = () => {
   const navigate = useNavigate();
 
   // Check if cart is empty
-  const hasItems = Object.values(cartItems).some((qty) => qty > 0);
+  const hasItems = cartItems ? Object.values(cartItems).some((qty) => qty > 0) : false;
+
 
   return (
     <div className="cart">
