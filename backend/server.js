@@ -18,7 +18,7 @@ app.use(express.json())
 app.use(cors({
   origin: ["https://food-delivery-app-sable-iota.vercel.app","https://food-delivery-app-admin-gamma.vercel.app"], // your frontend URL
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: ["Content-Type", "Authorization", "token"],
   credentials: true, // only if you use cookies / tokens with "withCredentials"
 }));
 
